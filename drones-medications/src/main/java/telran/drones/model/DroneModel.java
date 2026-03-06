@@ -1,25 +1,17 @@
 package telran.drones.model;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
 import telran.drones.dto.ModelType;
-
+import lombok.*;
 @Entity
-@Table(name = "drone_models")
+@Table(name="drone_models")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class DroneModel {
-@Id
-@Enumerated(EnumType.STRING)
-	ModelType modelType;
-@Column(nullable = false)
-int weight;
+	@Id
+	@Enumerated(EnumType.STRING)
+	@Column(name="model_name")
+ModelType modelName;
+	int weight;
 }

@@ -1,6 +1,6 @@
 package telran.drones.model;
 
-import java.awt.Taskbar.State;
+import telran.drones.dto.State;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;

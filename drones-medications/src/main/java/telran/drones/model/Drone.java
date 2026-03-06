@@ -1,41 +1,31 @@
 package telran.drones.model;
-import telran.drones.dto.State;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import telran.drones.dto.DroneDto;
-import static telran.drones.api.DroneValidationErrorMessages.*;
+import telran.drones.dto.State;
 @Entity
-@Table(name = "drones")
+@Table(name="drones")
 @NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access=AccessLevel.PRIVATE)
 @Getter
 @ToString
 public class Drone {
 	@Id
-	@Column(length = MAX_DRONE_SN_LENGHT, name = "drone_number")
-	String number;
+	@Column(length = 100, name="drone_number")
+  String number;
 	@ManyToOne
-	@JoinColumn(name = "model_name")
+	@JoinColumn(name="model_name")
 	@Setter
 	DroneModel model;
-	@Column(name = "battery_capaity", nullable = false)
-	@Setter
-	int batteryCapecity;
-	@Setter
+	@Column(name="battery_capacity")
+	int batteryCapacity;
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Setter
 	State state;
-	
 	static public Drone of(DroneDto droneDto) {
-	return new Drone(droneDto.serialNumber(), null, 100, State.IDLE);
+		return new Drone(droneDto.serialNumber(), null, 100, State.IDLE);
 	}
-	
 	public DroneDto build() {
-		return new DroneDto(number, model.getModelType());
+		return new DroneDto(number, model.getModelName());
 	}
 }
