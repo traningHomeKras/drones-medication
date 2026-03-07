@@ -2,14 +2,15 @@ package telran.drones.exceptions.controller;
 
 import java.util.stream.Collectors;
 
-import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import lombok.extern.slf4j.Slf4j;
+import telran.drones.exceptions.NotFoundException;
 
 @ControllerAdvice
 @Slf4j
@@ -36,4 +37,9 @@ ResponseEntity<String> methodArgumentNotValidHandler(MethodArgumentNotValidExcep
 	return returnResponse(message, HttpStatus.BAD_REQUEST);
 }
 
+@ExceptionHandler(HttpMessageNotReadableException.class)
+ResponseEntity<String> httpMessageNotReadableHandler(HttpMessageNotReadableException e){
+	
+	return returnResponse("Wrong JSON format", HttpStatus.BAD_REQUEST);
+}
 }

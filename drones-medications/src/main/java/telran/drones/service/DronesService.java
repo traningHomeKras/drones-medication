@@ -17,5 +17,5 @@ DroneDto registerDrone(DroneDto droneDto);
  * changes status loading and  current bataery capacity
  * @return all kindes exceptions
  */
-DroneMedication loadDrrone(DroneMedication droneMedication);
+DroneMedication loadDrone(DroneMedication droneMedication);
 }

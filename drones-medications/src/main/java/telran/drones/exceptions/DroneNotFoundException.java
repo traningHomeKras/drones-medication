@@ -1,4 +1,4 @@
-package telran.drones.exception;
+package telran.drones.exceptions;
 
 
 import telran.drones.api.ServiceExceptionMessages;

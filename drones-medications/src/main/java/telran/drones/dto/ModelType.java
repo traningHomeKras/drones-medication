@@ -1,5 +1,5 @@
 package telran.drones.dto;
 
 public enum ModelType {
-	Lightweight, Middleweight, Cruiserweight, Heavyweight
+	HAWY, Lightweight, Middleweight, Cruiserweight, Heavyweight
 }

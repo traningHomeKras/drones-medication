@@ -1,7 +1,6 @@
-package telran.drones.service;
+package telran.drones.exceptions;
 
 import telran.drones.api.ServiceExceptionMessages;
-import telran.drones.exception.NotFoundException;
 
 @SuppressWarnings("serial")
 public class ModelNotFoundException extends NotFoundException {

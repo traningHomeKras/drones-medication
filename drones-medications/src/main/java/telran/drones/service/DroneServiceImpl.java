@@ -10,12 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import telran.drones.dto.DroneDto;
 import telran.drones.dto.DroneMedication;
 import telran.drones.dto.State;
-import telran.drones.exception.DroneAlreaadyExistssException;
-import telran.drones.exception.DroneNotFoundException;
-import telran.drones.exception.IllegalDroneStateException;
-import telran.drones.exception.IllegalMedicationWeightException;
-import telran.drones.exception.LowBatteryCapacityException;
-import telran.drones.exception.MedicationNotFoundException;
+import telran.drones.exceptions.DroneAlreaadyExistssException;
+import telran.drones.exceptions.DroneNotFoundException;
+import telran.drones.exceptions.IllegalDroneStateException;
+import telran.drones.exceptions.IllegalMedicationWeightException;
+import telran.drones.exceptions.LowBatteryCapacityException;
+import telran.drones.exceptions.MedicationNotFoundException;
+import telran.drones.exceptions.ModelNotFoundException;
 import telran.drones.model.Drone;
 import telran.drones.model.DroneModel;
 import telran.drones.model.EventLog;
@@ -51,10 +52,12 @@ final DroneModelRepo droneModelRepo;
 
 	@Override
 	@Transactional(readOnly = false)
-	public DroneMedication loadDrrone(DroneMedication droneMedication) {
+	public DroneMedication loadDrone(DroneMedication droneMedication) {
 		Drone drone = dronesRepo.findById(droneMedication.droneNumber()).orElseThrow(()-> new DroneNotFoundException());
 		Medication medication = medicationsRepo.findById(droneMedication.medicationCode()).orElseThrow(()-> new MedicationNotFoundException());
+		log.debug("Loading drone with SN {} with medic@Testation {}", droneMedication.droneNumber(), droneMedication.medicationCode());
 		if(drone.getState()!= State.IDLE) {
+		
 			throw new IllegalDroneStateException();
 		}
 		if(drone.getBatteryCapacity() <= 25) {
@@ -66,7 +69,7 @@ final DroneModelRepo droneModelRepo;
 		drone.setState(State.LOADING);
 		EventLog eventLog = new EventLog(LocalDateTime.now(), drone.getNumber(), drone.getState(), drone.getBatteryCapacity());
 		eventLogRepo.save(eventLog);
-		
+		log.debug("new event has been created for drone with SN {}", drone.getNumber());
 		return droneMedication;
 	}
 

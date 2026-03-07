@@ -32,11 +32,11 @@ public DroneDto registerDrone(
 }
 
 @PostMapping("load")
-public DroneMedication loadDrrone(
+public DroneMedication loadDrone(
 		@RequestBody
 		@Valid
 		DroneMedication droneMedication) {
 	log.debug("load drone : loading drone {}", droneMedication);
-return dronesService.loadDrrone(droneMedication);
+return dronesService.loadDrone(droneMedication);
 }
 }
