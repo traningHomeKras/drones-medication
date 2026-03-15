@@ -6,4 +6,6 @@ import telran.drones.model.EventLog;
 
 public interface EventLogRepo extends JpaRepository<EventLog, Long> {
 
+	boolean existsByDroneNumber(String string);
+
 }

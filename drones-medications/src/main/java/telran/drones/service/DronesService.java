@@ -1,21 +1,42 @@
 package telran.drones.service;
 
+
+import java.util.List;
+
 import telran.drones.dto.DroneDto;
+import telran.drones.dto.DroneItemsAmount;
 import telran.drones.dto.DroneMedication;
 
 public interface DronesService {
-	/*
-	 * adds new drone into data base
-	 * return drone if ok or exception other else IllegalSttateException(drone with sn already exists)
-	 */
+
 DroneDto registerDrone(DroneDto droneDto);
-/**
- * checks whether a given drone available for loading(state idle, battery >=25%, weight match, checks whether given mediation exists )
- * @param droneMedication
- * crreates event log
- * chekes model type drone model exists
- * changes status loading and  current bataery capacity
- * @return all kindes exceptions
- */
 DroneMedication loadDrone(DroneMedication droneMedication);
+//- check how many medication items have been loaded for each drone, ordered by the amount in the
+/**
+* checking loaded medication items for a given drone; 
+* @param droneNumber
+* @return list of medication codes that have been loaded on a given drone (for all time)
+*/
+List<String> checkMedicationItems(String droneNumber);
+/*************************************************************/
+/**
+* checking available drones for loading;
+* @return list of drone numbers that are available for loading
+*/
+List<String> checkAvailableDrones();
+/******************************************************/
+/**
+* checking drone battery level for a given drone
+* @param droneNumber
+* @return the battery capacity of a given drone
+*/
+int checkBatteryCapacity(String droneNumber);
+/****************************************************************/
+/**
+* check how many medication items have been loaded for each drone,
+*  ordered by the amount in the descending order
+* @return distribution projection
+*/
+List<DroneItemsAmount >checkDroneLoadedItemAmounts();
+
 }

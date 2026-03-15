@@ -1,5 +1,6 @@
 package telran.drones.model;
 
+import telran.drones.dto.EventLogDto;
 import telran.drones.dto.State;
 import java.time.LocalDateTime;
 
@@ -21,12 +22,18 @@ public class EventLog {
 	State state;
 	@Column(name = "battary_capacity")
 	int battaryCapacity;
-	public EventLog(LocalDateTime timeStamp, String droneNumber, State state, int battaryCapacity) {
+	@Column(name = "medication_code")	
+	String medicattionCode;
+	public EventLog(LocalDateTime timeStamp, String droneNumber, State state, int battaryCapacity, String medicattionCode) {
 		
 		this.timeStamp = timeStamp;
 		this.droneNumber = droneNumber;
 		this.state = state;
 		this.battaryCapacity = battaryCapacity;
+		this.medicattionCode = medicattionCode;
 	}
 
+	public EventLogDto build() {
+		return new EventLogDto(timeStamp, droneNumber, state, battaryCapacity, medicattionCode);
+	}
 }
