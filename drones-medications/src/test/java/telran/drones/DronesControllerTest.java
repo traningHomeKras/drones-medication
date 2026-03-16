@@ -1,7 +1,6 @@
 package telran.drones;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,7 +20,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.ToString;
 import telran.drones.api.DroneValidationErrorMessages;
 import telran.drones.api.ServiceExceptionMessages;
 import telran.drones.controller.DronesController;
@@ -40,20 +41,17 @@ import tools.jackson.databind.ObjectMapper;
 record wronngModelTypeDto(String serialNumber, String modelType){}
 
 @AllArgsConstructor
-
+@Getter
+@EqualsAndHashCode
 class DroneItemsAmountImpl implements DroneItemsAmount {
-	@Getter
 	String number;
-	@Getter
 	long amount;
-	@Override
-	public long getAmmount() {
-		return amount;
+	
 	}
 	
 	
 	
-}
+
 @WebMvcTest(DronesController.class)
 class DronesControllerTest {
 	final static String HOST = "http://localhost:8080/";

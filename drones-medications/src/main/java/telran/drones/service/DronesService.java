@@ -11,7 +11,6 @@ public interface DronesService {
 
 DroneDto registerDrone(DroneDto droneDto);
 DroneMedication loadDrone(DroneMedication droneMedication);
-//- check how many medication items have been loaded for each drone, ordered by the amount in the
 /**
 * checking loaded medication items for a given drone; 
 * @param droneNumber

@@ -24,6 +24,8 @@ import telran.drones.model.Drone;
 import telran.drones.model.DroneModel;
 import telran.drones.model.EventLog;
 import telran.drones.model.Medication;
+import telran.drones.projection.DroneNumber;
+import telran.drones.projection.MedicationCode;
 import telran.drones.repo.DroneModelRepo;
 import telran.drones.repo.DronesRepo;
 import telran.drones.repo.EventLogRepo;
@@ -61,7 +63,7 @@ private int thresholdBatteryCapacity;
 	public DroneMedication loadDrone(DroneMedication droneMedication) {
 		Drone drone = dronesRepo.findById(droneMedication.droneNumber()).orElseThrow(DroneNotFoundException::new);
 		Medication medication = medicationsRepo.findById(droneMedication.medicationCode()).orElseThrow(MedicationNotFoundException::new);
-		log.debug("Loading drone with SN {} with medic@Testation {}", droneMedication.droneNumber(), droneMedication.medicationCode());
+		log.debug("Loading drone with SN {} with medication {}", droneMedication.droneNumber(), droneMedication.medicationCode());
 		if(drone.getState()!= State.IDLE) {
 		
 			throw new IllegalDroneStateException();
@@ -81,26 +83,45 @@ private int thresholdBatteryCapacity;
 
 	@Override
 	public List<String> checkMedicationItems(String droneNumber) {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("check medication items for drone with SN {}", droneNumber);
+		if(!dronesRepo.existsById(droneNumber)){
+			throw new DroneNotFoundException();
+		}
+		List<MedicationCode> medicationCodes = eventLogRepo.findByDroneNumberAndState(droneNumber, State.LOADING);
+		List<String> result = medicationCodes.stream().map(MedicationCode::getMedicationCode).toList();
+		log.debug("Loadet medications on drrone with SN {} are : {} ", droneNumber, result);
+		return result;
 	}
 
 	@Override
 	public List<String> checkAvailableDrones() {
-		// TODO Auto-generated method stub
-		return null;
+		List<DroneNumber> droneNumbers = dronesRepo.findByState(State.IDLE);
+		List<String> res = droneNumbers.stream().map(DroneNumber::getNumber).toList();
+		res.forEach(d -> log.debug("Drone with SN {} is available for loading", d));
+
+		return res;
 	}
 
 	@Override
 	public int checkBatteryCapacity(String droneNumber) {
-		// TODO Auto-generated method stub
-		return 0;
+		Integer batterryCapacity = dronesRepo.findBatteryCapacity(droneNumber);
+		if(batterryCapacity == null) {
+			throw new DroneNotFoundException();
+		}
+		log.debug("Battery capacity for drone with SN {} is {} ", droneNumber, batterryCapacity);
+		return batterryCapacity;	
+		
+	
 	}
 
 	@Override
 	public List<DroneItemsAmount> checkDroneLoadedItemAmounts() {
-		// TODO Auto-generated method stub
-		return null;
+		log.debug("check how many medication items have been loaded for each drone");
+		 List<DroneItemsAmount> droneItemsAmounts = eventLogRepo.findDroneItemsAmount();
+		 droneItemsAmounts.forEach(d -> log.debug("Drone with SN {} has loaded {} items", d.getNumber(), d.getAmount()));
+		 return droneItemsAmounts;
 	}
+
+
 
 }

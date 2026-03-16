@@ -20,20 +20,20 @@ public class EventLog {
 	String droneNumber;
 	@Enumerated(EnumType.STRING)
 	State state;
-	@Column(name = "battary_capacity")
-	int battaryCapacity;
+	@Column(name = "battery_capacity")
+	int batteryCapacity;
 	@Column(name = "medication_code")	
-	String medicattionCode;
-	public EventLog(LocalDateTime timeStamp, String droneNumber, State state, int battaryCapacity, String medicattionCode) {
+	String medicationCode;
+	public EventLog(LocalDateTime timeStamp, String droneNumber, State state, int batteryCapacity, String medicattionCode) {
 		
 		this.timeStamp = timeStamp;
 		this.droneNumber = droneNumber;
 		this.state = state;
-		this.battaryCapacity = battaryCapacity;
-		this.medicattionCode = medicattionCode;
+		this.batteryCapacity = batteryCapacity;
+		this.medicationCode = medicattionCode;
 	}
 
 	public EventLogDto build() {
-		return new EventLogDto(timeStamp, droneNumber, state, battaryCapacity, medicattionCode);
+		return new EventLogDto(timeStamp, droneNumber, state, batteryCapacity, medicationCode);
 	}
 }
